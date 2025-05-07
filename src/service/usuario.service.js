@@ -11,7 +11,7 @@ const findUserById = async (id) => {
         throw { status: 404, message: "Usuário não encontrado" };
     }
 
-    return usuario;
+    return { data: usuario };
 };
 
 const findAllUsers = async () => {
@@ -21,7 +21,7 @@ const findAllUsers = async () => {
         throw { status: 404, message: "Não existem usuários cadastrados" };
     }
 
-    return usuarios;
+    return { data: usuarios };
 };
 
 const createUser = async (body) => {
@@ -48,7 +48,7 @@ const createUser = async (body) => {
         admin: false
     });
 
-    return usuario;
+    return { data: usuario };
 };
 
 const updateUser = async (id, body) => {

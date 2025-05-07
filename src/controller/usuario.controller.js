@@ -1,30 +1,30 @@
 const usuarioService = require("../service/usuario.service");
 
 const findUserByIdController = async (req, res) => {
-    try{
+    try {
         const id = req.params.id;
         const usuario = await usuarioService.findUserById(id);
-        if(!usuario){
-            return res.status(404).send({message: "usuário nao encontrado, tente novamente"});
+        if (!usuario) {
+            return res.status(404).send({ message: "usuário nao encontrado, tente novamente" });
         }
-        return res.status(200).send(usuario);
-    }catch (err){
-        if(err.kind == "ObjectId"){
-            console.log(err.kind == "ObjectId")
-            return res.status(400).send({message: "ID informado esta incorreto, tente novamente"});
-        }
+        return res.status(200).send({ data: usuario });
+    } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(err.status || 500).send({ message: err.message || `Erro inesperado, tente novamente`});
+        const status = err.status || 500;
+        const message = err.message || "Erro inesperado, tente novamente";
+        return res.status(status).send({ message });
     }
 };
 
 const findAllUsersController = async (req, res) => {
-    try{
+    try {
         const usuarios = await usuarioService.findAllUsers();
-        return res.status(200).send(usuarios);
-    }catch (err){
+        return res.status(200).send({ data: usuarios });
+    } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(err.status || 500).send({ message: err.message || `Erro inesperado, tente novamente`});
+        const status = err.status || 500;
+        const message = err.message || "Erro inesperado, tente novamente";
+        return res.status(status).send({ message });
     }
 };
 
@@ -76,53 +76,57 @@ const validateUserFields = (body) => {
     return { isValid: true };
   };
 
-  const createUserController = async (req, res) => {
+const createUserController = async (req, res) => {
     try {
         // Primeiro, validar os campos do req.body
         const validation = validateUserFields(req.body);
-        
+
         if (!validation.isValid) {
             return res.status(400).send({ message: validation.message });
         }
-        
+
         // Depois de validar, criar o usuário
         const usuario = await usuarioService.createUser(req.body);
-        
-        return res.status(201).send(usuario);
+
+        return res.status(201).send({ data: usuario });
     } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(err.status || 500).send({ 
-            message: err.message || `Erro inesperado, tente novamente`
-        });
+        const status = err.status || 500;
+        const message = err.message || "Erro inesperado, tente novamente";
+        return res.status(status).send({ message });
     }
 };
 
 const updateUserController = async (req, res) => {
-    try{
+    try {
         // Primeiro, validar os campos do req.body
         const validation = validateUserFields(req.body);
-        
+
         if (!validation.isValid) {
             return res.status(400).send({ message: validation.message });
         }
         // Depois atualizar os campos
         const id = req.params.id;
         const usuarioAtualizado = await usuarioService.updateUser(id, req.body);
-        return res.status(200).send(usuarioAtualizado);
-    }catch (err){
+        return res.status(200).send({ data: usuarioAtualizado });
+    } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(err.status || 500).send({ message: err.message || `Erro inesperado, tente novamente`});
+        const status = err.status || 500;
+        const message = err.message || "Erro inesperado, tente novamente";
+        return res.status(status).send({ message });
     }
 };
 
 const removeUserController = async (req, res) => {
-    try{
+    try {
         const id = req.params.id;
         const resultado = await usuarioService.removeUser(id);
-        return res.status(200).send(resultado);
-    }catch (err){
+        return res.status(200).send({ data: resultado });
+    } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(err.status || 500).send({ message: err.message || `Erro inesperado, tente novamente`});
+        const status = err.status || 500;
+        const message = err.message || "Erro inesperado, tente novamente";
+        return res.status(status).send({ message });
     }
 };
 
@@ -130,10 +134,12 @@ const addAddressController = async (req, res) => {
     try {
         const id = req.params.id;
         const usuarioAtualizado = await usuarioService.addAddress(id, req.body);
-        return res.status(200).send(usuarioAtualizado);
+        return res.status(200).send({ data: usuarioAtualizado });
     } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(err.status || 500).send({ message: err.message || `Erro inesperado, tente novamente` });
+        const status = err.status || 500;
+        const message = err.message || "Erro inesperado, tente novamente";
+        return res.status(status).send({ message });
     }
 };
 
@@ -141,30 +147,36 @@ const addFavProductController = async (req, res) => {
     try {
         const id = req.params.id;
         const usuarioAtualizado = await usuarioService.addFavProduct(id, req.body);
-        return res.status(200).send(usuarioAtualizado);
+        return res.status(200).send({ data: usuarioAtualizado });
     } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(err.status || 500).send({ message: err.message || `Erro inesperado, tente novamente` });
+        const status = err.status || 500;
+        const message = err.message || "Erro inesperado, tente novamente";
+        return res.status(status).send({ message });
     }
 };
 
 const removeAddressController = async (req, res) => {
     try {
         const usuarioAtualizado = await usuarioService.removeAddress(req.body);
-        return res.status(200).send(usuarioAtualizado);
+        return res.status(200).send({ data: usuarioAtualizado });
     } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(err.status || 500).send({ message: err.message || `Erro inesperado, tente novamente` });
+        const status = err.status || 500;
+        const message = err.message || "Erro inesperado, tente novamente";
+        return res.status(status).send({ message });
     }
 };
 
 const removeFavProductController = async (req, res) => {
     try {
         const usuarioAtualizado = await usuarioService.removeFavProduct(req.body);
-        return res.status(200).send(usuarioAtualizado);
+        return res.status(200).send({ data: usuarioAtualizado });
     } catch (err) {
         console.log(`erro: ${err.message}`);
-        return res.status(err.status || 500).send({ message: err.message || `Erro inesperado, tente novamente` });
+        const status = err.status || 500;
+        const message = err.message || "Erro inesperado, tente novamente";
+        return res.status(status).send({ message });
     }
 };
 
