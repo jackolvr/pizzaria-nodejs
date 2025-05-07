@@ -1,8 +1,14 @@
+const mongoose = require('mongoose');
 const usuarioService = require("../service/usuario.service");
 
 const findUserByIdController = async (req, res) => {
     try {
         const id = req.params.id;
+        // Verifica se o ID é um ObjectId válido 
+        if (!mongoose.isValidObjectId(id)) { 
+            return res.status(400).send({ message: "ID informado está incorreto, tente novamente" }); 
+        }
+
         const usuario = await usuarioService.findUserById(id);
         if (!usuario) {
             return res.status(404).send({ message: "usuário nao encontrado, tente novamente" });
@@ -121,7 +127,12 @@ const removeUserController = async (req, res) => {
     try {
         const id = req.params.id;
         const resultado = await usuarioService.removeUser(id);
-        return res.status(200).send({ data: resultado });
+     //   if (resultado){
+            return res.status(200).send({ data: resultado });
+     //   }else{
+     //       return res.status(404).send({ data: resultado });
+     //   }
+        
     } catch (err) {
         console.log(`erro: ${err.message}`);
         const status = err.status || 500;
