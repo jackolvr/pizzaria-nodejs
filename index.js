@@ -2,6 +2,7 @@ const express = require("express");
 const connectToDataBase = require("./src/database/database");
 const usuario = require("./src/router/usuario.router");
 const auth = require("./src/router/auth.router");
+const produto = require("./src/router/produto.router");
 require('dotenv').config();
 
 const app = express();
@@ -14,6 +15,7 @@ connectToDataBase();
 
 app.use("/usuario", usuario);
 app.use("/auth", auth);
+app.use("/produto", produto);
 
 app.get("/", (req,res) => {
     res.send({
