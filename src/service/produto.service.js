@@ -99,10 +99,66 @@ const removeProduto = async (id) => {
     return { message: "Produto removido com sucesso" };
 };
 
+// Função para adicionar categoria ao produto
+const addCategoriaProduto = async (id, categoriaId) => {
+    if (!id) {
+        throw { status: 400, message: "ID do produto não informado" };
+    }
+
+    if (!categoriaId) {
+        throw { status: 400, message: "ID da categoria não informado" };
+    }
+
+    const produto = await Produto.findById(id);
+
+    if (!produto) {
+        throw { status: 404, message: "Produto não encontrado" };
+    }
+
+    const categoriaExistente = produto.categoria.find(
+        (categoria) => categoria._id.toString() === categoriaId
+    );
+
+    if (categoriaExistente) {
+        throw { status: 400, message: "Este produto já possui esta categoria" };
+    }
+
+    produto.categoria.push({ _id: categoriaId, createdAt: new Date() });
+    await produto.save();
+
+    return { data: produto };
+};
+
+
+// Função para remover uma categoria do produto
+const removerCategoriaProduto = async (id, categoriaId) => {
+    if (!id) {
+        throw { status: 400, message: "ID do produto não informado" };
+    }
+    if (!categoriaId) {
+        throw { status: 400, message: "ID da categoria não informado" };
+    }
+    const produto = await Produto.findById(id);
+    if (!produto) {
+        throw { status: 404, message: "Produto não encontrado" };
+    }
+    const indiceCategoria = produto.categoria.findIndex(
+        (categoria) => categoria._id.toString() === categoriaId
+    );
+    if (indiceCategoria === -1) {
+        throw { status: 404, message: "Categoria não encontrada neste produto" };
+    }
+    produto.categoria.splice(indiceCategoria, 1);
+    await produto.save();
+    return { data: produto };
+};
+
 module.exports = {
     findProdutoById,
     findAllProdutos,
     createProduto,
     updateProduto,
-    removeProduto
+    removeProduto,
+    addCategoriaProduto,
+    removerCategoriaProduto
 };

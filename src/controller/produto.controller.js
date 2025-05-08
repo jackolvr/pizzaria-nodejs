@@ -48,10 +48,32 @@ const removeProduto = async (req, res) => {
     }
 };
 
+const addCategoriaProduto = async (req, res) => {
+    try {
+        const { id, categoriaId } = req.params;
+        const produto = await produtoService.addCategoriaProduto(id, categoriaId);
+        res.send(produto);
+    } catch (err) {
+        res.status(err.status).send({ message: err.message });
+    }
+};
+
+const removerCategoriaProduto = async (req, res) => {
+    try {
+        const { id, categoriaId } = req.params;
+        const produto = await produtoService.removerCategoriaProduto(id, categoriaId);
+        res.send(produto);
+    } catch (err) {
+        res.status(err.status).send({ message: err.message });
+    }
+};
+
 module.exports = {
     findProdutoById,
     findAllProdutos,
     createProduto,
     updateProduto,
-    removeProduto
+    removeProduto,
+    addCategoriaProduto,
+    removerCategoriaProduto
 };
