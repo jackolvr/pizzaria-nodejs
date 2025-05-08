@@ -44,11 +44,13 @@ const createCategoria = async (body) => {
     return { data: categoria };
 };
 
+const mongoose = require('mongoose');
+
 const updateCategoria = async (id, body) => {
     const { nome } = body;
 
-    if (!id) {
-        throw { status: 400, message: "ID não informado" };
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+        throw { status: 400, message: "ID inválido ou não informado" };
     }
 
     if (!nome) {
@@ -63,7 +65,7 @@ const updateCategoria = async (id, body) => {
 
     if (nome) {
         const categoriaExistente = await Categoria.findOne({ nome: nome });
-        if (categoriaExistente && categoriaExistente._id != id) {
+        if (categoriaExistente && categoriaExistente._id.toString() != id) {
             throw { status: 400, message: "Este nome já está sendo utilizado por outra categoria" };
         }
     }
