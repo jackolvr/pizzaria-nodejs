@@ -75,7 +75,7 @@ const updateUser = async (id, body) => {
         }
     }
 
-    await Usuario.updateOne({ _id: id }, {
+    await Usuario.findByIdAndUpdate(id, {
         nome: nome || usuario.nome,
         email: email || usuario.email,
         senha: senha || usuario.senha,
