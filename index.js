@@ -1,6 +1,8 @@
 const express = require("express");
 const connectToDataBase = require("./src/database/database");
 const usuario = require("./src/router/usuario.router");
+const auth = require("./src/router/auth.router");
+require('dotenv').config();
 
 const app = express();
 
@@ -11,6 +13,7 @@ app.use(express.json());
 connectToDataBase();
 
 app.use("/usuario", usuario);
+app.use("/auth", auth);
 
 app.get("/", (req,res) => {
     res.send({
