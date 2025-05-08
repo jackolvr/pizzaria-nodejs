@@ -12,4 +12,8 @@ router.put("/update/:id", authMiddleware, produtoController.updateProduto);
 
 router.delete("/delete/:id", authMiddleware, produtoController.removeProduto);
 
+router.post("/addCategoria/:id", authMiddleware, produtoController.addCategoriaProduto);
+
+router.delete("/removeCategoria/:id", authMiddleware, produtoController.removerCategoriaProduto);
+
 module.exports = router;

@@ -50,7 +50,8 @@ const removeProduto = async (req, res) => {
 
 const addCategoriaProduto = async (req, res) => {
     try {
-        const { id, categoriaId } = req.params;
+        const id = req.params.id;
+        const categoriaId = req.body.categoriaId;
         const produto = await produtoService.addCategoriaProduto(id, categoriaId);
         res.send(produto);
     } catch (err) {
@@ -60,7 +61,8 @@ const addCategoriaProduto = async (req, res) => {
 
 const removerCategoriaProduto = async (req, res) => {
     try {
-        const { id, categoriaId } = req.params;
+        const id = req.params.id;
+        const categoriaId = req.body.categoriaId;
         const produto = await produtoService.removerCategoriaProduto(id, categoriaId);
         res.send(produto);
     } catch (err) {
