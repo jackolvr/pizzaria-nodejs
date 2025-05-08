@@ -1,9 +1,9 @@
 const express = require("express");
 const usuarioController = require("../controller/usuario.controller");
-
 const router = express.Router();
+const authMiddleware = require("../middleware/auth.middleware")
 
-router.get('/findById/:id', usuarioController.findUserByIdController);
+router.get('/findById/:id',authMiddleware, usuarioController.findUserByIdController);
 router.get('/findAll', usuarioController.findAllUsersController);
 
 router.post('/create', usuarioController.createUserController);
