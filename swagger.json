@@ -1,0 +1,1078 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Market Place",
+    "description": "API de MarketPlace completa contendo o CRUD de produtos, usuários, carrinhos e categorias.",
+    "contact": {
+      "name": "Jadson",
+      "email": "jadson@email.com.br"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "API de Teste LOCAL"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Login de usuário",
+        "description": "Realiza o login de um usuário na plataforma.",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "description": "Dados de login do usuário",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "usuario@example.com"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "example": "senha123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso"
+          },
+          "400": {
+            "description": "Credenciais inválidas"
+          }
+        }
+      }
+    },
+    "/carrinho/find/{id}": {
+      "get": {
+        "summary": "Busca um carrinho por ID",
+        "description": "Retorna um carrinho específico com base no seu ID.",
+        "tags": ["Carrinho"],
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do carrinho",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carrinho encontrado com sucesso"
+          },
+          "404": {
+            "description": "Carrinho não encontrado"
+          }
+        }
+      }
+    },
+    "/carrinho/findAll": {
+      "get": {
+        "summary": "Lista todos os carrinhos",
+        "description": "Retorna uma lista de todos os carrinhos.",
+        "tags": ["Carrinho"],
+        "responses": {
+          "200": {
+            "description": "Carrinhos listados com sucesso"
+          }
+        }
+      }
+    },
+    "/carrinho/create": {
+      "post": {
+        "summary": "Cria um novo carrinho",
+        "description": "Cria um novo carrinho na plataforma.",
+        "tags": ["Carrinho"],
+        "requestBody": {
+          "description": "Dados do novo carrinho",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "produtos": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "quantidade": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "precoTotal": {
+                    "type": "number"
+                  },
+                  "frete": {
+                    "type": "number"
+                  },
+                  "userId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Carrinho criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos para criar o carrinho"
+          }
+        }
+      }
+    },
+    "/carrinho/update/{id}": {
+      "put": {
+        "summary": "Atualiza um carrinho",
+        "description": "Atualiza os dados de um carrinho existente.",
+        "tags": ["Carrinho"],
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do carrinho",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Novos dados do carrinho",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "produtos": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "quantidade": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "precoTotal": {
+                    "type": "number"
+                  },
+                  "frete": {
+                    "type": "number"
+                  },
+                  "userId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Carrinho atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos para atualizar o carrinho"
+          },
+          "404": {
+            "description": "Carrinho não encontrado"
+          }
+        }
+      }
+    },
+    "/carrinho/delete/{id}": {
+      "delete": {
+        "summary": "Remove um carrinho",
+        "description": "Remove um carrinho da plataforma.",
+        "tags": ["Carrinho"],
+                "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do carrinho",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Carrinho removido com sucesso"
+          },
+          "404": {
+            "description": "Carrinho não encontrado"
+          }
+        }
+      }
+    },
+    "/categoria/find/{id}": {
+      "get": {
+        "summary": "Busca uma categoria por ID",
+        "description": "Retorna uma categoria específica com base no seu ID.",
+        "tags": ["Categoria"],
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da categoria",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria encontrada com sucesso"
+          },
+          "404": {
+            "description": "Categoria não encontrada"
+          }
+        }
+      }
+    },
+        "/categoria/findAll": {
+      "get": {
+        "summary": "Lista todas as categorias",
+        "description": "Retorna uma lista de todas as categorias.",
+        "tags": ["Categoria"],
+        "responses": {
+          "200": {
+            "description": "Categorias listadas com sucesso"
+          }
+        }
+      }
+    },
+    "/categoria/create": {
+      "post": {
+        "summary": "Cria uma nova categoria",
+        "description": "Cria uma nova categoria na plataforma.",
+        "tags": ["Categoria"],
+        "requestBody": {
+          "description": "Dados da nova categoria",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "example": "Eletrônicos"
+                  },
+                  "descricao": {
+                    "type": "string",
+                    "example": "Categoria de produtos eletrônicos"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Categoria criada com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos para criar a categoria"
+          }
+        }
+      }
+    },
+    "/categoria/update/{id}": {
+      "put": {
+        "summary": "Atualiza uma categoria",
+        "description": "Atualiza os dados de uma categoria existente.",
+        "tags": ["Categoria"],
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da categoria",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Novos dados da categoria",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "example": "Informática"
+                  },
+                  "descricao": {
+                    "type": "string",
+                    "example": "Categoria de produtos de informática"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria atualizada com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos para atualizar a categoria"
+          },
+          "404": {
+            "description": "Categoria não encontrada"
+          }
+        }
+      }
+    },
+    "/categoria/delete/{id}": {
+      "delete": {
+        "summary": "Remove uma categoria",
+        "description": "Remove uma categoria da plataforma.",
+        "tags": ["Categoria"],
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da categoria",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria removida com sucesso"
+          },
+          "404": {
+            "description": "Categoria não encontrada"
+          }
+        }
+      }
+    },
+    "/produto/find/{id}": {
+      "get": {
+        "summary": "Busca um produto por ID",
+        "description": "Retorna um produto específico com base no seu ID.",
+        "tags": ["Produto"],
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do produto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto encontrado com sucesso"
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          }
+        }
+      }
+    },
+    "/produto/findAll": {
+      "get": {
+        "summary": "Lista todos os produtos",
+        "description": "Retorna uma lista de todos os produtos.",
+        "tags": ["Produto"],
+        "responses": {
+          "200": {
+            "description": "Produtos listados com sucesso"
+          }
+        }
+      }
+    },
+    "/produto/create": {
+      "post": {
+        "summary": "Cria um novo produto",
+        "description": "Cria um novo produto na plataforma.",
+        "tags": ["Produto"],
+        "requestBody": {
+          "description": "Dados do novo produto",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "example": "Smartphone"
+                  },
+                  "descricao": {
+                    "type": "string",
+                    "example": "Smartphone com tela de 6 polegadas"
+                  },
+                  "precoUnitario": {
+                    "type": "number",
+                    "example": 1200.00
+                  },
+                  "imagem": {
+                    "type": "string",
+                    "example": "url_da_imagem.jpg"
+                  },
+                  "codigoBarra": {
+                    "type": "string",
+                    "example": "1234567890"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Produto criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos para criar o produto"
+          }
+        }
+      }
+    },
+        "/produto/update/{id}": {
+      "put": {
+        "summary": "Atualiza um produto",
+        "description": "Atualiza os dados de um produto existente.",
+        "tags": ["Produto"],
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do produto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Novos dados do produto",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "example": "Tablet"
+                  },
+                  "descricao": {
+                    "type": "string",
+                    "example": "Tablet com tela de 10 polegadas"
+                  },
+                  "precoUnitario": {
+                    "type": "number",
+                    "example": 800.00
+                  },
+                  "imagem": {
+                    "type": "string",
+                    "example": "url_da_imagem.jpg"
+                  },
+                  "codigoBarra": {
+                    "type": "string",
+                    "example": "9876543210"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/produto/delete/{id}": {
+      "delete": {
+        "summary": "Remove um produto",
+        "description": "Remove um produto da plataforma.",
+        "tags": ["Produto"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do produto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto removido com sucesso"
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          }
+        }
+      }
+    },
+    "/produto/addCategoria/{categoriaId}": {
+      "post": {
+        "summary": "Adiciona uma categoria a um produto",
+        "description": "Adiciona uma categoria existente a um produto.",
+        "tags": ["Produto"],
+        "parameters": [
+          {
+            "name": "categoriaId",
+            "in": "path",
+            "description": "ID da categoria",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "ID do produto",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "ID do produto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria adicionada com sucesso ao produto"
+          },
+          "400": {
+            "description": "Produto ou categoria não encontrados"
+          }
+        }
+      }
+    },
+    "/produto/removeCategoria/{id}": {
+      "delete": {
+        "summary": "Remove uma categoria de um produto",
+        "description": "Remove uma categoria existente de um produto.",
+        "tags": ["Produto"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do produto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }          }
+        ],
+        "requestBody": {
+          "description": "ID da categoria",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categoriaId": {
+                    "type": "string",
+                    "description": "ID da categoria"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria removida com sucesso do produto"
+          },
+          "400": {
+            "description": "Produto ou categoria não encontrados"
+          }
+        }
+      }
+    },
+    "/usuario/findById/{id}": {
+      "get": {
+        "summary": "Busca um usuário por ID",
+        "description": "Retorna um usuário específico com base no seu ID.",
+        "tags": ["Usuário"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      }
+    },
+    "/usuario/findAll": {
+      "get": {
+        "summary": "Lista todos os usuários",
+        "description": "Retorna uma lista de todos os usuários.",
+        "tags": ["Usuário"],
+        "responses": {
+          "200": {
+            "description": "Usuários listados com sucesso"
+          }
+        }
+      }
+    },
+    "/usuario/create": {
+      "post": {
+        "summary": "Cria um novo usuário",
+        "description": "Cria um novo usuário na plataforma.",
+        "tags": ["Usuário"],
+        "requestBody": {
+          "description": "Dados do novo usuário",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "example": "João da Silva"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "joao.silva@example.com"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "example": "senha123"
+                  },
+                  "telefones": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "(11) 99999-9999"
+                    }
+                  },
+                  "dataNascimento": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "1990-01-01"
+                  },
+                  "enderecos": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "cep": {
+                          "type": "string",
+                          "example": "01001000"
+                        },
+                        "logradouro": {
+                          "type": "string",
+                          "example": "Rua dos Bobos"
+                        },
+                        "numero": {
+                          "type": "string",
+                          "example": "0"
+                        },
+                        "complemento": {
+                          "type": "string",
+                          "example": "Apto 101"
+                        },
+                        "bairro": {
+                          "type": "string",
+                          "example": "Centro"
+                        },
+                        "cidade": {
+                          "type": "string",
+                          "example": "São Paulo"
+                        },
+                        "estado": {
+                          "type": "string",
+                          "example": "SP"
+                        }
+                      }
+                    }
+                  },
+                  "cpf": {
+                    "type": "string",
+                    "example": "123.456.789-00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos para criar o usuário"
+          }
+        }
+      }
+    },
+    "/usuario/addAddress/{id}": {
+      "post": {
+        "summary": "Adiciona um endereço a um usuário",
+        "description": "Adiciona um novo endereço a um usuário existente.",
+        "tags": ["Usuário"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Dados do novo endereço",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cep": {
+                    "type": "string",
+                    "example": "01001000"
+                  },
+                  "logradouro": {
+                    "type": "string",
+                    "example": "Rua dos Bobos"
+                  },
+                  "numero": {
+                    "type": "string",
+                    "example": "0"
+                  },
+                  "complemento": {
+                    "type": "string",
+                    "example": "Apto 101"
+                  },
+                  "bairro": {
+                    "type": "string",
+                    "example": "Centro"
+                  },
+                  "cidade": {
+                    "type": "string",
+                    "example": "São Paulo"
+                  },
+                  "estado": {
+                    "type": "string",
+                    "example": "SP"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Endereço adicionado com sucesso ao usuário"
+          },
+          "400": {
+            "description": "Usuário não encontrado ou dados inválidos para o endereço"
+          }
+        }
+      }
+    },
+    "/usuario/addFavProduct/{id}": {
+      "post": {
+        "summary": "Adiciona um produto favorito a um usuário",
+        "description": "Adiciona um novo produto favorito a um usuário existente.",
+        "tags": ["Usuário"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "ID do produto favorito",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "produtoId": {
+                    "type": "string",
+                    "description": "ID do produto favorito"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Produto favorito adicionado com sucesso ao usuário"
+          },
+          "400": {
+            "description": "Usuário ou produto não encontrados"
+          }
+        }
+      }
+    },
+    "/usuario/update/{id}": {
+      "put": {
+        "summary": "Atualiza um usuário",
+        "description": "Atualiza os dados de um usuário existente.",
+        "tags": ["Usuário"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Novos dados do usuário",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string",
+                    "example": "João da Silva atualizado"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "joao.silva.atualizado@example.com"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "example": "senha123atualizada"
+                  },
+                  "telefones": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "(11) 99999-9998"
+                    }
+                  },
+                  "dataNascimento": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "1991-01-01"
+                  },
+                  "enderecos": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "cep": {
+                          "type": "string",
+                          "example": "01001001"
+                        },
+                        "logradouro": {
+                          "type": "string",
+                          "example": "Rua dos Bobos atualizada"
+                        },
+                        "numero": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "complemento": {
+                          "type": "string",
+                          "example": "Apto 102"
+                        },
+                        "bairro": {
+                          "type": "string",
+                          "example": "Centro atualizado"
+                        },
+                        "cidade": {
+                          "type": "string",
+                          "example": "São Paulo atualizado"
+                        },
+                        "estado": {
+                          "type": "string",
+                          "example": "SP"
+                        }
+                      }
+                    }
+                  },
+                  "cpf": {
+                    "type": "string",
+                    "example": "123.456.789-01"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos para atualizar o usuário"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      }
+    },
+    "/usuario/remove/{id}": {
+      "delete": {
+        "summary": "Remove um usuário",
+        "description": "Remove um usuário da plataforma.",
+        "tags": ["Usuário"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário removido com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        }
+      }
+    },
+    "/usuario/removeAddress": {
+      "delete": {
+        "summary": "Remove um endereço de um usuário",
+        "description": "Remove um endereço existente de um usuário.",
+        "tags": ["Usuário"],
+        "requestBody": {
+          "description": "ID do usuário e endereço",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "ID do usuário"
+                  },
+                  "enderecoId": {
+                    "type": "string",
+                    "description": "ID do endereço"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Endereço removido com sucesso do usuário"
+          },
+          "400": {
+            "description": "Usuário ou endereço não encontrados"
+          }
+        }
+      }
+    },
+    "/usuario/removeFavProduct": {
+      "delete": {
+        "summary": "Remove um produto favorito de um usuário",
+        "description": "Remove um produto favorito existente de um usuário.",
+        "tags": ["Usuário"],
+        "requestBody": {
+          "description": "ID do usuário e produto favorito",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "ID do usuário"
+                  },
+                  "produtoId": {
+                    "type": "string",
+                    "description": "ID do produto favorito"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Produto favorito removido com sucesso do usuário"
+          },
+          "400": {
+            "description": "Usuário ou produto favorito não encontrados"
+          }
+        }
+      }
+    }
+  }
+}
