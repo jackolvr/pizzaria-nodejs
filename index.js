@@ -4,6 +4,7 @@ const usuario = require("./src/router/usuario.router");
 const auth = require("./src/router/auth.router");
 const produto = require("./src/router/produto.router");
 const categoria = require("./src/router/categoria.router");
+const carrinho = require("./src/router/carrinho.router");
 require('dotenv').config();
 
 const app = express();
@@ -18,6 +19,7 @@ app.use("/usuario", usuario);
 app.use("/auth", auth);
 app.use("/produto", produto);
 app.use("/categoria", categoria);
+app.use("/carrinho", carrinho);
 
 app.get("/", (req,res) => {
     res.send({
